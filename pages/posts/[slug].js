@@ -66,7 +66,7 @@ export const getStaticProps = async ({ params }) => {
   const postFilePath = path.join(POSTS_PATH, `${params.slug}.mdx`)
   const source = fs.readFileSync(postFilePath)
   const { content, data } = matter(source)
-  var client = new Client("dev");
+  var client = new Client("azure");
 
   const edata = await client.conferences.GetAll();
   data.edata = edata
