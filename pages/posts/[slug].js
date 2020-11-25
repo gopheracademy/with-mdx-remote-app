@@ -7,6 +7,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import path from 'path'
 import CustomLink from '../../components/CustomLink'
+import Event from '../../components/Event'
 import Layout from '../../components/Layout'
 import { Client } from '../../components/showrunner.ts';
 import { postFilePaths, POSTS_PATH } from '../../utils/mdxUtils'
@@ -21,6 +22,7 @@ const components = {
   // useful for conditionally loading components for certain routes.
   // See the notes in README.md for more details.
   TestComponent: dynamic(() => import('../../components/TestComponent')),
+  Event: dynamic(() => import('../../components/Event')),
   Head,
 }
 
@@ -67,6 +69,7 @@ export const getStaticProps = async ({ params }) => {
   var client = new Client("dev");
 
   const edata = await client.conferences.GetAll();
+  data.edata = edata
   const mdxSource = await renderToString(content, {
     components,
     // Optionally pass remark/rehype plugins
