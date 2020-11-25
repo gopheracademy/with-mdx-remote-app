@@ -8,6 +8,7 @@ import Link from 'next/link'
 import path from 'path'
 import CustomLink from '../../components/CustomLink'
 import Layout from '../../components/Layout'
+import { Client } from '../../components/showrunner.ts';
 import { postFilePaths, POSTS_PATH } from '../../utils/mdxUtils'
 
 // Custom components/renderers to pass to MDX.
@@ -23,7 +24,8 @@ const components = {
   Head,
 }
 
-export default function PostPage({ source, frontMatter }) {
+export default function PostPage({ source, frontMatter, edata }) {
+  console.log(edata)
   const content = hydrate(source, { components })
   return (
     <Layout>
@@ -61,9 +63,10 @@ export default function PostPage({ source, frontMatter }) {
 export const getStaticProps = async ({ params }) => {
   const postFilePath = path.join(POSTS_PATH, `${params.slug}.mdx`)
   const source = fs.readFileSync(postFilePath)
-
   const { content, data } = matter(source)
+  var client = new Client("dev");
 
+  const edata = await client.conferences.GetAll();
   const mdxSource = await renderToString(content, {
     components,
     // Optionally pass remark/rehype plugins
@@ -78,6 +81,7 @@ export const getStaticProps = async ({ params }) => {
     props: {
       source: mdxSource,
       frontMatter: data,
+      edata: edata,
     },
   }
 }
