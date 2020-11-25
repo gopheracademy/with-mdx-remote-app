@@ -1,0 +1,16 @@
+backend:
+  name: test-repo
+  branch: main
+media_folder: public/img
+public_folder: img
+collections:
+  - label: "Posts"
+    name: "post"
+    folder: "posts"
+    create: true
+    extension: "mdx"
+    format: "frontmatter"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Body", name: "body", widget: "markdown"}
